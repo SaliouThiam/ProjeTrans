@@ -2,6 +2,8 @@ import os
 # comment out below line to enable tensorflow logging outputs
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import time
+from datetime import datetime
+import pygame
 import tensorflow as tf
 physical_devices = tf.config.experimental.list_physical_devices('GPU')
 if len(physical_devices) > 0:
@@ -241,6 +243,31 @@ def main(_argv):
             cv2.putText(frame, f"{CLASSE}: {NOMBRE}", (10, y0), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 0), 2, cv2.LINE_AA)
             y0 += dy
         #------------------------------Fin de test---------------------------------------------------------------
+        
+        #---------------------------Detection d'intrusion-----------------------------------------------------
+        
+        def is_intrusion(hour):
+            '''
+            Cette fonction permet de vérifie s'il y a intrusion ou pas en se basant sur l' heures
+        
+            '''
+            intrusion_start = 22  # 22h00
+            intrusion_end = 6  # 6h00
+
+            if intrusion_start <= hour or hour < intrusion_end:
+                return True
+            return False
+            
+        # Obtenir l'heure actuelle
+        current_time = datetime.now().time()
+        current_hour = current_time.hour
+        
+        # Alert
+        if count != 0 and is_intrusion(current_hour):
+            pygame.mixer.init()
+            pygame.mixer.music.load("alert.mp3")
+            pygame.mixer.music.play() 
+
 
         # calculate frames per second of running detections
         fps = 1.0 / (time.time() - start_time)
