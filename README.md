@@ -48,5 +48,5 @@
 
 ---
 
-**Note :** Assurez-vous que toutes les commandes sont exécutées dans l'environnement virtuel activé.
+**Note :** Assurez-vous que toutes les commandes soient exécutées dans l'environnement virtuel activé.
 
